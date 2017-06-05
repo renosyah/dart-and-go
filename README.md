@@ -1,10 +1,8 @@
-## basic app with flutter & Go
+# Aplikasi login dan register menggunakan Go, Dart, dan Flutter
 
-aplikasi mobile sederhana untuk mengirim data dan menerima dengan backend menggunakan go
+# Demo Aplikasi
+![App daftar](123.png)
 
-* data yang dikirim ke backend kemudian diproses dan dimasukkan kedalam file txt.
-* data yang diterima berupa json dan json array dari backend
+![App logi](12.png)
 
-
-(alamat ip server harus http://192.168.23.1:8080, jika ingin diubah ubah isi file url.dart) 
- 
+![App database](1234.png)
