@@ -4,6 +4,8 @@ import "net/http"
 import "encoding/json"
 import "fmt"
 import "os"
+import "database/sql"
+import _ "github.com/lib/pq"
 
 type Human struct {
 	Nama string
@@ -16,6 +18,18 @@ type mhs struct {
 type respon struct {
 	Username string
 	Akses    bool
+}
+
+func connect() *sql.DB {
+	var db, err = sql.Open("postgres", "postgresql://root@localhost:26257/login?sslmode=disable") //default cockroach setting
+	err = db.Ping()
+	if err != nil {
+		fmt.Println("database tidak bisa dihubungi")
+		os.Exit(0)
+
+	}
+	return db
+
 }
 
 func utama(res http.ResponseWriter, req *http.Request) {
@@ -39,20 +53,31 @@ func create(res http.ResponseWriter, req *http.Request) {
 }
 
 func mau_login(res http.ResponseWriter, req *http.Request) {
+
 	username := req.FormValue("username")
 	password := req.FormValue("password")
 
-	var password_ku = "12345"
+	var pass_db string
 
-	if password == password_ku {
+	db := connect()
+	defer db.Close()
 
-		data := respon{username, true}
-		json.NewEncoder(res).Encode(data)
+	rows := db.QueryRow("select password from login.user where username = $1", username)
+	rows.Scan(&pass_db)
 
-	} else {
+	if password != pass_db {
+
 		data := respon{"", false}
 		json.NewEncoder(res).Encode(data)
+		fmt.Println(password, username, pass_db)
+		return
+
 	}
+
+	data := respon{username, true}
+	json.NewEncoder(res).Encode(data)
+
+	fmt.Println(password, username, pass_db)
 }
 
 func main() {
@@ -60,6 +85,6 @@ func main() {
 	http.HandleFunc("/daftar", create)
 	http.HandleFunc("/mau_login", mau_login)
 	fmt.Println("running now...")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":9090", nil)
 
 }

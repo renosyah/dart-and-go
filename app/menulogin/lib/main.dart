@@ -74,7 +74,7 @@ class _MenuLoginState extends State<MenuLogin> {
 
 
   _login() async {
-    String url = "http://192.168.23.1:8080/mau_login";
+    String url = "http://192.168.23.1:9090/mau_login";
     var data = {"username": _username.text, "password": _password.text};
     var response = await httpClient.post(url, body: data);
     var hasil = jsoncodec.decode(response.body);
