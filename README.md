@@ -1,6 +1,6 @@
 ## basic app with flutter & Go
 
-aplikasi mobile sederhana untuk mengirim data dan menerima dari backend go
+aplikasi mobile sederhana untuk mengirim data dan menerima dengan backend menggunakan go
 
 * data yang dikirim ke backend kemudian diproses dan dimasukkan kedalam file txt.
 * data yang diterima berupa json dan json array dari backend
